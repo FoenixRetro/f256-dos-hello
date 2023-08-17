@@ -14,16 +14,11 @@ String		RB	2
 	ENDC
 
 
-		SECTION	"Code",CODE[$2000]
+		SECTION	"Code",CODE[$200A]
 
-Header:
-		DB	$F2,$56		; magic
-		DB	Length/$2000	; # blocks
-		DB	Header/$2000	; start block #
-		DW	Entry		; entry address
-		DS	4		; fill
+		DB	"hello",0	; Kernel User Program name
 
-Entry:
+Entry::
 		; Switch to text IO
 		lda	#2
 		sta	IO_CTRL
@@ -80,7 +75,7 @@ Entry:
 		rts
 
 
-.text1		DB	"This is a kernel user program.",0
+.text1		DB	"Hello, World!",0
 .text2		DB	"Press a key to exit, or ESC to reset (if hardware supports it.)",0
 .text3		DB	"Arguments were:",0
 
@@ -143,8 +138,3 @@ ClearScreen:
 		bne	.next
 .done
 		rts
-
-
-		CNOP	0,$2000
-
-Length		EQU	@-Header
